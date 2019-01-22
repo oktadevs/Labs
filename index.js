@@ -1,10 +1,20 @@
 const express = require("express"),
+  bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
+  keys = require("./config/keys"),
+  passport = require("passport"),
+  OidcStrategy = require("passport-openidconnect").Strategy,
+  session = require("express-session"),
   app = express();
 
-app.get("/", function(req, res) {
-  res.send("You've reached the root route!!!");
-});
+require("./models/User");
+
+mongoose.connect(
+  keys.mongoURI,
+  { useNewUrlParser: true }
+);
+
+require("./routes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
